@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import domain.RealTeam;
@@ -18,12 +20,25 @@ public class InMemoryRealTeamRepository implements RealTeamRepository{
 	
 	private List<RealTeam> listOfRealTeams = new ArrayList<RealTeam>();
 	
+	/*private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+	
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}*/
+	@Autowired
 	private DataSource dataSource;
 	
 	public InMemoryRealTeamRepository(DataSource dataSource) {
+		String query = "SELECT * FROM real_team;";
+		
+		
 		this.dataSource = dataSource;
 		
-		String query = "SELECT * FROM real_team;";
 		
 		RealTeam realTeam = null;
 		Connection con = null;
@@ -52,6 +67,8 @@ public class InMemoryRealTeamRepository implements RealTeamRepository{
 		rt.setName("Chelsea");
 		listOfRealTeams.add(rt);
 		listOfRealTeams.add(rt);
+        //listOfRealTeams = getJdbcTemplate().query("SELECT * FROM real_team", new BeanPropertyRowMapper(RealTeam.class));
+
 	}
 	
 	
