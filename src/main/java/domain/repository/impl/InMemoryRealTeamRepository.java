@@ -30,6 +30,8 @@ public class InMemoryRealTeamRepository implements RealTeamRepository{
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
 	}*/
+	
+	@SuppressWarnings("unused")
 	@Autowired
 	private DataSource dataSource;
 	

@@ -27,7 +27,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         		response.sendRedirect("/fantasy/user");
         		System.out.println("user");
         	} else 
-        		System.out.println("aaaa");
+        		System.out.println("b³¹d");
         }
     }
 }
