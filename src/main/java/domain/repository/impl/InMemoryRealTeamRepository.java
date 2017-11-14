@@ -36,7 +36,7 @@ public class InMemoryRealTeamRepository implements RealTeamRepository{
 	private DataSource dataSource;
 	
 	public InMemoryRealTeamRepository(DataSource dataSource) {
-		String query = "SELECT * FROM real_team;";
+		/*String query = "SELECT * FROM real_team;";
 		
 		
 		this.dataSource = dataSource;
@@ -64,7 +64,7 @@ public class InMemoryRealTeamRepository implements RealTeamRepository{
 			} catch(SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		RealTeam rt = new RealTeam();
 		rt.setName("Chelsea");
 		listOfRealTeams.add(rt);
