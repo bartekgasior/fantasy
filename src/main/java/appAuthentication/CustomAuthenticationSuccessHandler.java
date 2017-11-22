@@ -17,14 +17,24 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         // Get the role of logged in user
     	System.out.println("Hit the AuthSuccessHandler");
     	
-        Collection<? extends GrantedAuthority> auths = authResult.getAuthorities();
-                
+        Collection<? extends GrantedAuthority> auths = authResult.getAuthorities();     
+        
+        /*
+         * PRZY WRZUCANIU NA SERWER USUNAC '/FANTASY' W PRZEKIEROWYWANYM ADRESIE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         */
+        
+        String fantasyURL = "/fantasy";
+        
         for (GrantedAuthority grantedAuthority : auths) {
         	if(grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
-            	response.sendRedirect("/admin");
+            	response.sendRedirect(fantasyURL + "/admin");
             	System.out.println("admin");
         	} else if(grantedAuthority.getAuthority().equals("ROLE_USER")) {
-        		response.sendRedirect("/user");
+        		response.sendRedirect(fantasyURL + "/user");
         		System.out.println("user");
         	} else 
         		System.out.println("b³¹d");

@@ -31,4 +31,7 @@
 	<bean id="inMemoryRealTeamRepository" class="domain.repository.impl.InMemoryRealTeamRepository">
 		<constructor-arg ref="dataSource"/>
 	</bean>
+	<bean id="inMemoryUserRepository" class="domain.repository.impl.InMemoryUserRepository">
+		<constructor-arg ref="dataSource"/>
+	</bean>
 </beans>
