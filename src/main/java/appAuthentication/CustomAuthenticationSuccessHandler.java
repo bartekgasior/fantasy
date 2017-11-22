@@ -21,10 +21,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 
         for (GrantedAuthority grantedAuthority : auths) {
         	if(grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
-            	response.sendRedirect("/fantasy/admin");
+            	response.sendRedirect("/admin");
             	System.out.println("admin");
         	} else if(grantedAuthority.getAuthority().equals("ROLE_USER")) {
-        		response.sendRedirect("/fantasy/user");
+        		response.sendRedirect("/user");
         		System.out.println("user");
         	} else 
         		System.out.println("b³¹d");
