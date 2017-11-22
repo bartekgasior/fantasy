@@ -28,18 +28,18 @@
 						
 	<security:authentication-manager>
 		<security:authentication-provider>
-			<security:jdbc-user-service data-source-ref="dataSource" users-by-username-query="SELECT username,password,enabled FROM fantasydb.users WHERE username = 'admin'"
-																	 authorities-by-username-query="SELECT username,user_role FROM fantasydb.users WHERE username = ?"/>
+			<security:jdbc-user-service data-source-ref="dataSource" users-by-username-query="SELECT username,password,enabled FROM users WHERE username = ? "
+																	 authorities-by-username-query="SELECT username,user_role FROM users WHERE username = ? "/>
 		</security:authentication-provider>
 	</security:authentication-manager>
 						
 						
-	<!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<!--  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/mydb" />
 		<property name="username" value="root" />
 		<property name="password" value="admin" />
-	</bean> -->
+	</bean> -->  <!-- Działa dla mysql-connector-5.1.39 + --> 
 	
 	<!-- <bean class="java.net.URI" id="dbUrl">
 	    <constructor-arg value="mysql://be076606e05209:1e90dd56@eu-cdbr-west-01.cleardb.com/heroku_ffb63d9f5cba98b?reconnect=true"/>
@@ -52,11 +52,18 @@
 	    <property name="password" value="1e90dd56"/>
 	</bean> -->
 						
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-	    <property name="jdbcUrl" value="jdbc:mysql://fantasydb.cpe79arnva32.eu-west-1.rds.amazonaws.com:3306/fantasydb"/>
-	    <property name="user" value="admin"/>
+	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	    <property name="url" value="jdbc:mysql://fantasydb.cpe79arnva32.eu-west-1.rds.amazonaws.com:3306/fantasydb"/>
+	    <property name="username" value="admin"/>
 	    <property name="password" value="Bartek1994"/>
+	</bean> --> 
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	    <property name="url" value="jdbc:mysql://johnny.heliohost.org:3306/bartekg_fantasydb"/>
+	    <property name="username" value="bartekg_admin"/>
+	    <property name="password" value="admin"/>
 	</bean>
 	
 	<bean id="customAuthenticationSuccessHandler" class="appAuthentication.CustomAuthenticationSuccessHandler"></bean>
