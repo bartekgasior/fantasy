@@ -34,7 +34,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             	response.sendRedirect(fantasyURL + "/admin");
             	System.out.println("admin");
         	} else if(grantedAuthority.getAuthority().equals("ROLE_USER")) {
-        		response.sendRedirect(fantasyURL + "/user");
+        		response.sendRedirect(fantasyURL + "/userPanel");
         		System.out.println("user");
         	} else 
         		System.out.println("b³¹d");

@@ -6,36 +6,37 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-		<title>Rejestracja</title>
+		<title>Dodaj drużynę</title>
 	</head>
 	<body>
+		<section>
+			<div class="jumbotron">
+				<c:url var="logoutUrl" value="/j_spring_security_logout"/> 
+					<form action="${logoutUrl}" method="post"> 
+						<button type="submit" class="btn btn-danger btn-mini pull-right">Wyloguj się</button> 
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+					</form>
+			</div>
+		</section>
 		<section class="container">
-			<form:form modelAttribute = "newUser" method="post" class ="form-horizontal">
+			<c:if test="${not empty error}">
+				<div class="alert alert-danger">
+					<spring:message code="RealTeamDetailsAuthenticationProvider.badCredentials"/><br />
+				</div>
+			</c:if>
+			
+			<form:form modelAttribute = "realTeam" method="post" class ="form-horizontal">
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				<fieldset>
 					<legend> Podaj dane</legend>
+					
 						<div class = "form-group">
-							<label class="control-label col-lg-2 col-lg-2" for="name">Login</label>
 							<div class="col-lg-10">
-								<form:input id="username" placeholder = "Username" path="username" type="text" class="form:input-large" />
+								<form:input id="name" placeholder = "Name" path="name" type="text" class="form:input-large"/>
 							</div>
 						</div>
-						<div class = "form-group">
-							<label class="control-label col-lg-2 col-lg-2" for="unitPrice">Hasło</label>
-							<div class="col-lg-10">
-								<form:input id="password" placeholder="Password" path="password" type="password" class="form:input-large" />
-							</div>
-						</div>
-
 						<div class="form-group">
-							<label class="control-label col-lg-2" for="description">Powtórz hasło</label>
 							<div class="col-lg-10">
-								<form:input id="password" placeholder="Confirm Password" path="password" type="password" class="form:input-large"/>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<div class="col-lg-offset-2 col-lg-10">
 								<input type="submit" id="btnAdd" class="btn btn-primary" value="Potwierdz"/>
 							</div>
 						</div>

@@ -34,4 +34,7 @@
 	<bean id="inMemoryUserRepository" class="domain.repository.impl.InMemoryUserRepository">
 		<constructor-arg ref="dataSource"/>
 	</bean>
+	<bean id="inMemoryPlayerRepository" class="domain.repository.impl.InMemoryPlayerRepository">
+		<constructor-arg ref="dataSource"/>
+	</bean>
 </beans>

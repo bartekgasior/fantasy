@@ -3,8 +3,9 @@ package domain;
 public class User {
 	private String username;
 	private String password;
-	private String rePassword;
-	
+	private String user_role;
+	private Long userId;
+
 	public User() {
 		super();
 	}
@@ -30,11 +31,21 @@ public class User {
 		this.password = password;
 	}	
 	
-	public String getRePassword() {
-		return rePassword;
+
+	public String getUser_role() {
+		return user_role;
 	}
 
-	public void setRePassword(String rePassword) {
-		this.rePassword = rePassword;
-	}	
+	public void setUser_role(String user_role) {
+		this.user_role = user_role;
+	}
+	
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	
 }

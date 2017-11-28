@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -20,27 +22,18 @@ public class InMemoryRealTeamRepository implements RealTeamRepository{
 	
 	private List<RealTeam> listOfRealTeams = new ArrayList<RealTeam>();
 	
-	/*private JdbcTemplate jdbcTemplate;
-	
-	@Autowired
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
-	
-	public JdbcTemplate getJdbcTemplate() {
-		return jdbcTemplate;
-	}*/
-	
 	@SuppressWarnings("unused")
 	@Autowired
 	private DataSource dataSource;
 	
 	public InMemoryRealTeamRepository(DataSource dataSource) {
-		/*String query = "SELECT * FROM real_team;";
-		
-		
 		this.dataSource = dataSource;
-		
+	}
+	
+	
+	public List<RealTeam> getAllRealTeams(){
+		listOfRealTeams.removeAll(listOfRealTeams);
+		String query = "SELECT * FROM real_team;";
 		
 		RealTeam realTeam = null;
 		Connection con = null;
@@ -53,7 +46,7 @@ public class InMemoryRealTeamRepository implements RealTeamRepository{
 			while(rs.next()) {
 				realTeam = new RealTeam();
 				realTeam.setName(rs.getString("name"));
-				
+				realTeam.setId(rs.getLong("id"));
 				listOfRealTeams.add(realTeam);
 			}
 		} catch(SQLException e){
@@ -64,17 +57,83 @@ public class InMemoryRealTeamRepository implements RealTeamRepository{
 			} catch(SQLException e) {
 				e.printStackTrace();
 			}
-		}*/
-		RealTeam rt = new RealTeam();
-		rt.setName("Chelsea");
-		listOfRealTeams.add(rt);
-		listOfRealTeams.add(rt);
-        //listOfRealTeams = getJdbcTemplate().query("SELECT * FROM real_team", new BeanPropertyRowMapper(RealTeam.class));
-
+		}		
+		
+		Collections.sort(listOfRealTeams, new Comparator<RealTeam>(){
+			
+			@Override
+			public int compare(RealTeam rt1, RealTeam rt2) {
+				// TODO Auto-generated method stub
+				return rt1.getName().compareTo(rt2.getName());
+			}
+		});
+		
+		return listOfRealTeams;
 	}
 	
+	public void addRealTeam(RealTeam realTeam) {
+		String query = "INSERT INTO real_team (name) VALUES (?)";
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = dataSource.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setString(1, realTeam.getName());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+				
+		listOfRealTeams.add(realTeam);
+	}
 	
-	public List<RealTeam> getAllRealTeams(){
-		return listOfRealTeams;
+	public void deleteRealTeam(Long realTeamId) {
+		String query = "DELETE FROM real_team WHERE id = ?";
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = dataSource.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setLong(1, realTeamId);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
 	}
 }

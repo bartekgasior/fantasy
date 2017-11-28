@@ -52,7 +52,7 @@
 						</div>
 						<div class="panel-footer text-center">
 							Jeśli nie posiadasz konta </br>
-							<a href="/fantasy/register" class="btn btn-danger btn-sm">Zarejestruj się</a>
+							<a href="register" class="btn btn-danger btn-sm">Zarejestruj się</a>
 						</div>
 					</div>
 				</div>

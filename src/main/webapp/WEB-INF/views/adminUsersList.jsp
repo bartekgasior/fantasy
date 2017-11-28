@@ -7,7 +7,7 @@
 		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 		
-		<title>Lista drużyn</title>
+		<title>UsersList</title>
 	</head>
 	<body>
 		<section>
@@ -21,32 +21,28 @@
 		</section>
 		<section>
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
-			<div class="col-md-4 col-md-offset-4">
-			<div class="panel panel-default">
 		
-				<div class="panel-heading" style="font-size:30px;text-align:center;font-weight: bold;">Lista drużyn</div>
-				
-				<div class="panel-body">
-				<ul class="list-group">
-					<c:forEach items="${realTeams}" var="realTeam">
-						<div class = "caption" style="font-size:30px">
+		<div class="col-md-4 col-md-offset-4">
+		<div class="panel panel-default">
+		
+			<div class="panel-heading" style="font-size:30px;text-align:center;font-weight: bold;">Lista użytkowników</div>
+			
+			<div class="panel-body">
+			<ul class="list-group">
+				<c:forEach items="${usersList}" var="user">
+					<div class = "caption" style="font-size:30px;">
 						
 							<li class="list-group-item">
-								${realTeam.name}
-								<a href="<spring:url value="/admin/deleteRealTeam/${realTeam.id}" />" class="btn btn-danger btn-md pull-right"> <span class = "glyphicon glyphicon-trash"> </span> Usuń </a>
+							${user.username }
+							<a href="<spring:url value="/admin/deleteUser/${user.userId}" />" class="btn btn-danger btn-md pull-right"> <span class = "glyphicon glyphicon-trash"> </span> Usuń </a>
 							</li>
-							
-						</div>
-					</c:forEach>
-				
-				</ul>
-				</div>
-				
-				<div class="panel-footer text-center">
-					<a href="realTeams/addRealTeam" class="btn btn-danger btn-sm">Dodaj drużynę</a>
-				</div>
+						
+					</div>
+				</c:forEach>
+			</ul>
 			</div>
-			</div>
+		</div>
+		</div>
 		</sec:authorize>
 		</section>
 	</body>

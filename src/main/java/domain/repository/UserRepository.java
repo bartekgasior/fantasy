@@ -7,4 +7,5 @@ import domain.User;
 public interface UserRepository {
 	List<User> getAllUsers();
 	void addUser(User user);
+	void deleteUser(Long userId);
 }

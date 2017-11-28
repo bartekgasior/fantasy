@@ -16,15 +16,23 @@
 					</form>
 			</div>
 		</section>
+		<section>
+			<div class="jumbotron">
+				<c:url var="logoutUrl" value="/j_spring_security_logout"/> 
+					<form action="${logoutUrl}" method="post"> 
+						<button type="submit" class="btn btn-danger btn-mini pull-right">Wyloguj się</button> 
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+					</form>
+			</div>
+		</section>
 		<section class="container">
 			<div class="row">
 				<div class="col-md-4 col-md-offset-4">
 		
 					<div class="panel panel-default">
 						<div class="panel-body">
-							<a href="admin/usersList" class="btn btn-info btn-md btn-block">Edytuj użytkowników</a>
-							<a href="admin/realTeams" class="btn btn-info btn-md btn-block">Edytuj drużyny</a>
-							<a href="admin/players" class="btn btn-info btn-md btn-block">Edytuj zawodników</a>
+							<a href=# class="btn btn-info btn-md btn-block">Twoje drużyny</a>
+							<a href="#" class="btn btn-info btn-md btn-block">Twoje ligi</a>
 						</div>
 					</div>
 				</div>

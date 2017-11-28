@@ -17,7 +17,7 @@ import domain.repository.UserRepository;
 
 @Repository
 public class InMemoryUserRepository implements UserRepository{
-	private List<User> listOfUsers = new ArrayList<User>();
+	private ArrayList<User> listOfUsers = new ArrayList<User>();
 	
 	@Autowired
 	private DataSource dataSource;
@@ -27,13 +27,38 @@ public class InMemoryUserRepository implements UserRepository{
 	}
 	
 	public List<User> getAllUsers(){
+		listOfUsers.removeAll(listOfUsers);
+		String query = "SELECT * FROM users WHERE user_role = 'ROLE_USER';";		
+		
+		User user = null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			con = dataSource.getConnection();
+			ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				user = new User();
+				user.setUsername(rs.getString("username"));
+				user.setUser_role(rs.getString("user_role"));
+				user.setUserId(rs.getLong("id"));
+				listOfUsers.add(user);
+			}
+		} catch(SQLException e){
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close(); ps.close(); con.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return listOfUsers;
 	}
 	
 	public void addUser(User user) {
 		String query = "INSERT INTO users (username, password) VALUES (?, ?)";
-		
-		System.out.println(user.getUsername());
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -65,5 +90,37 @@ public class InMemoryUserRepository implements UserRepository{
 		}
 		
 		listOfUsers.add(user);
+	}
+	
+	public void deleteUser(Long userId) {
+		String query = "DELETE FROM users WHERE id = ?";
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = dataSource.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setLong(1, userId);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}	
 	}
 }
