@@ -19,6 +19,14 @@ public class PlayerServiceImpl implements PlayerService{
 		return playerRepository.getAllPlayers();
 	}
 	
+	public List<Player> getRealTeamPlayers(Long realTeamId){
+		return playerRepository.getRealTeamPlayers(realTeamId);
+	}
+	
+	public List<Player> getPlayersByPage(int pageId, int rows){
+		return playerRepository.getPlayersByPage(pageId, rows);
+	}
+	
 	public void addPlayer(Player player) {
 		playerRepository.addPlayer(player);
 	}

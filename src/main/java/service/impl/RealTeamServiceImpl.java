@@ -19,6 +19,10 @@ public class RealTeamServiceImpl implements RealTeamService{
 		return realTeamRepository.getAllRealTeams();
 	}
 	
+	public RealTeam getRealTeam(Long realTeamId) {
+		return realTeamRepository.getRealTeam(realTeamId);
+	}
+	
 	public void addRealTeam(RealTeam realTeam) {
 		realTeamRepository.addRealTeam(realTeam);
 	}

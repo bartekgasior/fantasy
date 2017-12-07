@@ -21,8 +21,8 @@
 		</section>
 		<section>
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
-			<div class="col-md-4 col-md-offset-4">
-			<div class="panel panel-default">
+			<div class="col-md-8 col-md-offset-2">
+			<div class="panel panel-default" style="vertical-align: middle;">
 		
 				<div class="panel-heading" style="font-size:30px;text-align:center;font-weight: bold;">Lista drużyn</div>
 				
@@ -30,10 +30,11 @@
 				<ul class="list-group">
 					<c:forEach items="${realTeams}" var="realTeam">
 						<div class = "caption" style="font-size:30px">
-						
+
 							<li class="list-group-item">
 								${realTeam.name}
-								<a href="<spring:url value="/admin/deleteRealTeam/${realTeam.id}" />" class="btn btn-danger btn-md pull-right"> <span class = "glyphicon glyphicon-trash"> </span> Usuń </a>
+								<a href="<spring:url value="/admin/deleteRealTeam/${realTeam.id}" />" class="btn btn-danger btn-md pull-right" style="margin-left:5px"> <span class = "glyphicon glyphicon-trash"> </span> Usuń </a>
+								<a href="<spring:url value="/admin/realTeam/${realTeam.id }/players" />" class="btn btn-info btn-md pull-right"> <span class = "glyphicon glyphicon-plus-sign"> </span> Zarządzaj zawodnikami </a>
 							</li>
 							
 						</div>

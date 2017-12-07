@@ -28,11 +28,11 @@
 			<div class="panel panel-default">
 			
 			
-				<div class="panel-heading" style="font-size:25px;text-align:center;font-weight: bold;"> </div>
+				<div class="panel-heading" style="font-size:25px;text-align:center;font-weight: bold;"> ${realTeam.name }</div>
 				
 				<div class="panel-body">
 					<div class = "table-responsive">
-					<table class = "table table-striped table-striped table-hover" style="text-allign:center;">
+					<table class = "table table-bordered table-striped table-hover">
 						<thead>
 					      <tr>
 					        <th>#</th>
@@ -40,36 +40,16 @@
 					        <th>Surname</th>
 					        <th>Fee</th>
 					        <th>Position</th>
-					        <th>Club</th>
-					        <th></th>
-					        <th></th>
 					      </tr>
 					    </thead>
 					    <tbody>
-					    <c:forEach items="${playersList }" var="player">
+					    <c:forEach items="${realTeamPlayers}" var="player">
 					      <tr>
 					        <td>${player.id}</td>
 					        <td>${player.name}</td>
 					        <td>${player.surname}</td>
 					        <td>${player.player_fee}</td>
 					        <td>${player.position}</td>
-					        <td>
-					        	<c:forEach items="${realTeamsList }" var="realTeam">
-					        		<c:choose>
-					        			<c:when test="${player.real_team_id == realTeam.id}">
-					        			
-					        				${realTeam.name }
-					        			 
-					        			</c:when>
-					        		</c:choose>
-					        	</c:forEach>
-					        </td>
-					        <td>
-					        	<a href="<spring:url value="/admin/deletePlayer/${player.id}" />" class="btn btn-danger btn-sm"> <span class = "glyphicon glyphicon-trash"> </span> Usuń </a>
-					        </td>
-					        <td>
-					        	<a href="<spring:url value="/admin/editPlayer/${player.id}" />" class="btn btn-info btn-sm"> <span class = "glyphicon glyphicon-trash"> </span> Edytuj </a>
-					      	</td>
 					      </tr>
 					     </c:forEach>
 					    </tbody>
@@ -77,17 +57,8 @@
 					</div>
 				</div>
 								
-				<div class="panel-footer text-center" style = "font-size:20px;">
-					 <c:forEach begin="1" end ="${pages }" varStatus="page">
-					 <c:choose>
-					 	 <c:when test="${page.index == currentPage}">
-					        <a href="${page.index }" style = "color: red; text-decoration: underline;">${page.index }</a>  
-					    </c:when>    
-					    <c:otherwise>
-					        <a href="${page.index }">${page.index }</a>  
-					    </c:otherwise>
-					 </c:choose>
-					 </c:forEach>
+				<div class="panel-footer text-center">
+					<a href="addPlayer" class="btn btn-danger btn-sm">Dodaj zawodnika</a>
 				</div>
 			</div>
 			</div>

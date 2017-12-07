@@ -6,7 +6,6 @@ public class Player {
 	private String surname;
 	private double player_fee;
 	private String position;
-	
 	private Long real_team_id;
 	
 	public Long getId() {

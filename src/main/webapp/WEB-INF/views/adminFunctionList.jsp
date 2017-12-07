@@ -24,7 +24,7 @@
 						<div class="panel-body">
 							<a href="admin/usersList" class="btn btn-info btn-md btn-block">Edytuj użytkowników</a>
 							<a href="admin/realTeams" class="btn btn-info btn-md btn-block">Edytuj drużyny</a>
-							<a href="admin/players" class="btn btn-info btn-md btn-block">Edytuj zawodników</a>
+							<a href="admin/players/1" class="btn btn-info btn-md btn-block">Edytuj zawodników</a>
 						</div>
 					</div>
 				</div>

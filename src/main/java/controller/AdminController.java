@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import domain.Player;
 import domain.RealTeam;
@@ -34,7 +35,9 @@ public class AdminController {
 		return "adminFunctionList";
 	}
 	
-	
+	/*
+	 * Druzyny
+	 */
 	
 	@RequestMapping("/realTeams")
 	public String adminRealTeamsList(Model model) {
@@ -62,28 +65,46 @@ public class AdminController {
 	}
 	
 	
-	
-	@RequestMapping("/players")
-	public String adminPlayersList(Model model) {
-		model.addAttribute("players", playerService.getAllPlayers());
-		model.addAttribute("realTeams", realTeamService.getAllRealTeams());
-		return "adminPlayersList";
+	@RequestMapping(value = "/realTeam/{id}/players", method = RequestMethod.GET)
+	public String adminRealTeamPlayersList(@PathVariable("id") Long realTeamId, Model model) {
+		model.addAttribute("realTeamPlayers", playerService.getRealTeamPlayers(realTeamId));
+		model.addAttribute("realTeam", realTeamService.getRealTeam(realTeamId));
+		return "adminRealTeamPlayersList";
 	}
 	
-	@RequestMapping(value = "/players/addPlayer", method = RequestMethod.GET)
-	public String adminAddPlayer(Model model) {
+	@RequestMapping(value = "/realTeam/{id}/addPlayer", method = RequestMethod.GET)
+	public String adminAddPlayerToRealTeam(Model model) {
 		Player player = new Player();
+		//model.addAttribute("realTeamId", realTeamId);
 		model.addAttribute("player", player);
 		return "adminAddPlayer";
 	}
 	
-	@RequestMapping(value = "/players/addPlayer", method = RequestMethod.POST)
-	public String processAddNewPlayerForm(@ModelAttribute("player") Player player, HttpServletRequest request) {
+	@RequestMapping(value = "/realTeam/{id}/addPlayer", method = RequestMethod.POST)
+	public String processAddPlayerToRealTeamForm(@ModelAttribute("player") Player player, @PathVariable("id") Long realTeamId, HttpServletRequest request) {
+		player.setReal_team_id(realTeamId);
 		playerService.addPlayer(player);
-		return "redirect:/admin/players";
+		return "redirect:/admin/realTeam/{id}/players";
 	}
 	
 	
+	/*
+	 * Zawodnicy
+	 */
+	
+	@RequestMapping(value = "/players/{pageId}")
+	public String adminPlayersList(@PathVariable("pageId") int pageId, Model model) {
+		int pages = playerService.getAllPlayers().size()/20 + 1;
+		model.addAttribute("playersList", playerService.getPlayersByPage(pageId, 20));
+		model.addAttribute("realTeamsList", realTeamService.getAllRealTeams());
+		model.addAttribute("pages", pages);
+		model.addAttribute("currentPage", pageId);
+		return "adminPlayersList";
+	}
+	
+	/*
+	 * Uzytkownicy
+	 */
 	
 	@RequestMapping("/usersList")
 	public String adminUsersList(Model model) {
@@ -96,4 +117,5 @@ public class AdminController {
 		userService.deleteUser(userId);
 		return "redirect:/admin/usersList";
 	}
+
 }

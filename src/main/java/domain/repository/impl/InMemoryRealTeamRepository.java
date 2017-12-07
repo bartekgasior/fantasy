@@ -136,4 +136,35 @@ public class InMemoryRealTeamRepository implements RealTeamRepository{
 				}
 		}
 	}
+	
+	public RealTeam getRealTeam(Long realTeamId) {
+		String query = "SELECT * FROM real_team WHERE id = ?";
+		
+		RealTeam realTeam = null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			con = dataSource.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setLong(1, realTeamId);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				realTeam = new RealTeam();
+				realTeam.setName(rs.getString("name"));
+				realTeam.setId(rs.getLong("id"));
+			}
+			
+		} catch(SQLException e){
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close(); ps.close(); con.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		
+		return realTeam;
+	}
 }
