@@ -37,4 +37,10 @@
 	<bean id="inMemoryPlayerRepository" class="domain.repository.impl.InMemoryPlayerRepository">
 		<constructor-arg ref="dataSource"/>
 	</bean>
+	<bean id="inMemoryMatchRepository" class="domain.repository.impl.InMemoryMatchRepository">
+		<constructor-arg ref="dataSource"/>
+	</bean>
+	<bean id="inMemoryResultRepository" class="domain.repository.impl.InMemoryResultRepository">
+		<constructor-arg ref="dataSource"/>
+	</bean>
 </beans>

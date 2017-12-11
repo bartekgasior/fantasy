@@ -30,7 +30,7 @@
 						<div class="form-group">
 							<label class="control-label col-lg-2" for="description">Powtórz hasło</label>
 							<div class="col-lg-10">
-								<form:input id="password" placeholder="Confirm Password" path="password" type="password" class="form:input-large"/>
+								<!-- <form:input id="password" placeholder="Confirm Password" path="password" type="password" class="form:input-large"/> -->
 							</div>
 						</div>
 						

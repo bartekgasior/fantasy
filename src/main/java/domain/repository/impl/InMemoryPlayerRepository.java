@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -13,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import domain.Player;
-import domain.User;
 import domain.repository.PlayerRepository;
+import service.RealTeamService;
 
 @Repository
 public class InMemoryPlayerRepository implements PlayerRepository {
@@ -23,6 +26,8 @@ public class InMemoryPlayerRepository implements PlayerRepository {
 	
 	@Autowired
 	private DataSource dataSource;
+	@Autowired
+	private RealTeamService realTeamService;
 	
 	public InMemoryPlayerRepository(DataSource dataSource) {
 		this.dataSource = dataSource;
@@ -167,5 +172,73 @@ public class InMemoryPlayerRepository implements PlayerRepository {
 			}
 		}
 		return listOfPlayers;
+	}
+	
+	public Set<Player> getPlayersByFilter(Map<String, List<String>> filterParams){
+		List<Player> players = getAllPlayers();
+		Set<Player> playersByRealTeam = new HashSet<Player>();
+		Set<Player> playersByPosition = new HashSet<Player>();
+		Set<String> criterias = filterParams.keySet();
+		
+		if(criterias.contains("realTeam")) {
+			for(String realTeamTmp: filterParams.get("realTeam")){
+				for(Player player: players) {
+					String tmp = realTeamService.getRealTeam(player.getReal_team_id()).getName();
+					
+					if(realTeamTmp.equalsIgnoreCase(tmp)) 
+						playersByRealTeam.add(player);
+				}
+			}
+		}
+		
+		if(criterias.contains("position")) {
+			for(String positionTmp: filterParams.get("position")){
+				for(Player player: players) {
+					if(positionTmp.equalsIgnoreCase(player.getPosition()))
+						playersByPosition.add(player);
+				}
+			}
+		}
+		
+		if(playersByPosition.size() == 0)
+			return playersByRealTeam;
+		else if(playersByRealTeam.size() == 0)
+			return playersByPosition;
+		else {
+			playersByRealTeam.retainAll(playersByPosition);
+			return playersByRealTeam;
+		}
+	}
+	
+	public void deletePlayer(Long playerId) {
+		String query = "DELETE FROM player WHERE id = ?";
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = dataSource.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setLong(1, playerId);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
 	}
 }

@@ -8,23 +8,23 @@
 		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 		
-		<title>Lista zawodników</title>
+		<title>Lista spotkań</title>
 		
 		<script type="text/javascript">
 		
 		function redirect(){
-			    var realTeam = document.getElementById("getRealTeamName");
+			    var realTeam = document.getElementById("getHomeTeamName");
 			    var realTeamName = realTeam.options[realTeam.selectedIndex].value;
-			    var position = document.getElementById("getPositionName");
+			    var position = document.getElementById("getAwayTeamName");
 			    var positionName = position.options[position.selectedIndex].value;
 			    
-			    var url = "/admin/players/1/filter/ByCriteria;";
+			    var url = "/admin/matches/1/filter/ByCriteria;";
 			    if(realTeam.selectedIndex != 0){
-			    	url = url + "realTeam=" + realTeamName + ";";
+			    	url = url + "homeTeam=" + realTeamName + ";";
 			    }
 			    
 			    if(position.selectedIndex != 0){
-			    	url = url + "position=" + positionName + ";";
+			    	url = url + "awayTeam=" + positionName + ";";
 			    }
 			    
 			    window.location = url;
@@ -53,21 +53,24 @@
 				
 				<form method="post">
 				
-					<select name="realTeamName" id="getRealTeamName">  
-						<option selected disabled hidden>Wybierz drużynę</option>
+					<select name="realTeamName" id="getHomeTeamName">  
+						<option selected disabled hidden>Wybierz drużynę gospodarzy</option>
 					    <c:forEach items="${realTeamsList}" var="realTeam">
 					        <option id="${realTeam.id}" value="${realTeam.name }">${realTeam.name }</option>   
 					    </c:forEach>
 					</select>
 				
-					<select name="positionName" id="getPositionName">  
-						<option selected disabled hidden>Wybierz pozycje</option>
-					    <c:forEach items="${positions }" var="position">
-					        <option id="${position.id }" value="${position.name }">${position.name }</option>   
+					<select name="positionName" id="getAwayTeamName">  
+						<option selected disabled hidden>Wybierz drużynę gości</option>
+					    <c:forEach items="${realTeamsList}" var="realTeam">
+					        <option id="${realTeam.id}" value="${realTeam.name }">${realTeam.name }</option>   
 					    </c:forEach>
 					</select>
 
 					<button type="button" id="searchButton" class="btn btn-info btn-sm" onclick="redirect()"> <span class = "glyphicon glyphicon-trash"></span> Szukaj</button>
+					
+					<a href="<spring:url value="/admin/matches/addMatch" />" class="btn btn-success btn-sm pull-right"> <span class = "glyphicon glyphicon-plus"> </span> Dodaj spotkanie </a>
+					
 				</form>
 				</div>
 				
@@ -77,27 +80,21 @@
 						<thead>
 					      <tr>
 					        <th>#</th>
-					        <th>Name</th>
-					        <th>Surname</th>
-					        <th>Fee</th>
-					        <th>Position</th>
-					        <th>Club</th>
+					        <th>Home team</th>
+					        <th>Away team</th>
+					        <th>Result</th>
 					        <th></th>
 					        <th></th>
 					      </tr>
 					    </thead>
 					    <tbody>
-					    <c:forEach items="${playersList }" var="player">
+					    <c:forEach items="${matchesList }" var="match">
 					      <tr>
-					        <td>${player.id}</td>
-					        <td>${player.name}</td>
-					        <td>${player.surname}</td>
-					        <td>${player.player_fee}</td>
-					        <td>${player.position}</td>
+					        <td>${match.id}</td>
 					        <td>
 					        	<c:forEach items="${realTeamsList }" var="realTeam">
 					        		<c:choose>
-					        			<c:when test="${player.real_team_id == realTeam.id}">
+					        			<c:when test="${match.home_team_id == realTeam.id}">
 					        			
 					        				${realTeam.name }
 					        			 
@@ -106,10 +103,41 @@
 					        	</c:forEach>
 					        </td>
 					        <td>
-					        	<a href="<spring:url value="/admin/players/${currentPage }/deletePlayer/${player.id }" />" class="btn btn-danger btn-sm"> <span class = "glyphicon glyphicon-trash"> </span> Usuń </a>
+					        	<c:forEach items="${realTeamsList }" var="realTeam">
+					        		<c:choose>
+					        			<c:when test="${match.away_team_id == realTeam.id}">
+					        			
+					        				${realTeam.name }
+					        			 
+					        			</c:when>
+					        		</c:choose>
+					        	</c:forEach>
 					        </td>
 					        <td>
-					        	<a href="<spring:url value="/admin/editPlayer/${player.id}" />" class="btn btn-info btn-sm"> <span class = "glyphicon glyphicon-trash"> </span> Edytuj </a>
+					        	<c:forEach items="${realTeamsList }" var="realTeam">
+					        		<c:choose>
+					        			<c:when test="${match.home_team_id == realTeam.id}">
+					        			
+					        				${match.home_team_score} -
+					        			 
+					        			</c:when>
+					        		</c:choose>
+					        	</c:forEach>
+					        	<c:forEach items="${realTeamsList }" var="realTeam">
+					        		<c:choose>
+					        			<c:when test="${match.home_team_id == realTeam.id}">
+					        			
+					        				${match.away_team_score}
+					        			 
+					        			</c:when>
+					        		</c:choose>
+					        	</c:forEach>
+					        </td>
+					        <td>
+					        	<a href="<spring:url value="/admin/matches/${currentPage }/deleteMatch/${match.id }" />" class="btn btn-danger btn-sm"> <span class = "glyphicon glyphicon-trash"> </span> Usuń </a>
+					        </td>
+					        <td>
+					        	<a href="<spring:url value="/admin/editMatch/${match.id}" />" class="btn btn-info btn-sm"> <span class = "glyphicon glyphicon-trash"> </span> Edytuj </a>
 					      	</td>
 					      </tr>
 					     </c:forEach>

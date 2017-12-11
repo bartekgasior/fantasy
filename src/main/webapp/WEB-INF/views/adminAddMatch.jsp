@@ -6,7 +6,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-		<title>Dodaj zawodnika</title>
+		<title>Dodaj spotkanie</title>
 	</head>
 	<body>
 		<section>
@@ -20,42 +20,62 @@
 		</section>
 		<section class="container">
 			
-			<form:form modelAttribute = "player" method="post" class ="form-horizontal">
+			<form:form modelAttribute = "match" method="post" class ="form-inline">
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				<fieldset>
 					<legend>Podaj dane</legend>
-					
+						
 						<div class = "form-group">
 							<div class="col-lg-10">
-								<form:input id="name" placeholder = "Name" path="name" type="text" class="form:input-large"/>
+							
+								<form:select path="home_team_id">
+								   
+								    <c:forEach items="${realTeams }" var="realTeam">
+								        <form:option id="${realTeam.id }" value="${realTeam.id }" itemValue="home_team_id">${realTeam.name }</form:option>   
+								    </c:forEach>
+								</form:select>
+								
 							</div>
 						</div>
 						
 						<div class = "form-group">
-							<div class="col-lg-10">
-								<form:input id="surname" placeholder = "Surname" path="surname" type="text" class="form:input-large"/>
+							<div class="col-sm-10">
+								<form:input id="home_team_score" placeholder = "Bramki gospodarzy" path="home_team_score" type="text" class="form:input-large"/>
 							</div>
 						</div>
-						
+						 :	
 						<div class = "form-group">
-							<div class="col-lg-10">
-								<form:input id="player_fee" placeholder = "Player fee" path="player_fee" type="text" class="form:input-large"/>
+							<div class="col-sm-10">
+								<form:input id="away_team_score" placeholder = "Bramki gości" path="away_team_score" type="text" class="form:input-large"/>
 							</div>
 						</div>
 						
 						<div class = "form-group">
 							<div class="col-lg-10">
 							
-								<form:select path="position">
-								   <form:option value="selected disabled hidden">Wybierz pozycje</form:option>
-								    <c:forEach items="${positions }" var="position">
-								        <form:option id="${position.id }" value="${position.name }" itemValue="position">${position.name }</form:option>   
+								<form:select path="away_team_id">
+								   
+								    <c:forEach items="${realTeams }" var="realTeam">
+								        <form:option id="${realTeam.id }" value="${realTeam.id }" itemValue="away_team_id">${realTeam.name }</form:option>   
 								    </c:forEach>
 								</form:select>
 								
 							</div>
 						</div>
-									
+						
+						<div class = "form-group">
+							<div class="col-lg-10">
+							
+								<form:select path="result_id">
+								   
+								    <c:forEach items="${results }" var="result">
+								        <form:option id="${result.id }" value="${result.id }" itemValue="result_id">${result.name }</form:option>   
+								    </c:forEach>
+								</form:select>
+								
+							</div>
+						</div>
+						
 						<div class="form-group">
 							<div class="col-lg-10">
 								<input type="submit" id="btnAdd" class="btn btn-primary" value="Potwierdz"/>
