@@ -34,7 +34,8 @@
 							<li class="list-group-item">
 								${realTeam.name}
 								<a href="<spring:url value="/admin/deleteRealTeam/${realTeam.id}" />" class="btn btn-danger btn-md pull-right" style="margin-left:5px"> <span class = "glyphicon glyphicon-trash"> </span> Usuń </a>
-								<a href="<spring:url value="/admin/realTeam/${realTeam.id }/players" />" class="btn btn-info btn-md pull-right"> <span class = "glyphicon glyphicon-plus-sign"> </span> Zarządzaj zawodnikami </a>
+								<a href="<spring:url value="/admin/realTeam/edit?id=${realTeam.id}" />" class="btn btn-success btn-md pull-right" style="margin-left:5px"> <span class = "glyphicon glyphicon-edit"></span> Edytuj </a>
+								<a href="<spring:url value="/admin/realTeam/${realTeam.id }/players" />" class="btn btn-info btn-md pull-right"> <span class = "glyphicon glyphicon-plus-sign"> </span> Zarządzaj zawodnikami </a>								
 							</li>
 							
 						</div>

@@ -33,6 +33,14 @@ public class PlayerServiceImpl implements PlayerService{
 		return playerRepository.getPlayersByFilter(filterParams);
 	}
 	
+	public Player getPlayerById(Long id) {
+		return playerRepository.getPlayerById(id);
+	}
+	
+	public void updatePlayer(Player player) {
+		playerRepository.updatePlayer(player);
+	}
+	
 	public void addPlayer(Player player) {
 		playerRepository.addPlayer(player);
 	}

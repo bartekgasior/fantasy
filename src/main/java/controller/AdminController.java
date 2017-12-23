@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import domain.Match;
 import domain.Player;
@@ -78,6 +79,17 @@ public class AdminController {
 		return "redirect:/admin/realTeams";
 	}
 	
+	@RequestMapping(value ="/realTeam/edit", method = RequestMethod.GET)
+	public String editRealTeam(@RequestParam("id") Long realTeamId, Model model) {
+		model.addAttribute("realTeam", realTeamService.getRealTeam(realTeamId));
+		return "adminEditRealTeam";
+	}
+	
+	@RequestMapping(value ="/realTeam/edit", method = RequestMethod.POST)
+	public String processEditRealTeam(@ModelAttribute("realTeam") RealTeam realTeam, HttpServletRequest request) {
+		realTeamService.updateRealTeam(realTeam);
+		return "redirect:/admin/realTeams";
+	}
 	
 	@RequestMapping("/realTeam/{id}/players")
 	public String adminRealTeamPlayersList(@PathVariable("id") Long realTeamId, Model model) {
@@ -101,19 +113,20 @@ public class AdminController {
 		return "redirect:/admin/realTeam/{id}/players";
 	}
 	
-	
 	/*
 	 * Zawodnicy
 	 */
 	
 	@RequestMapping("/players/{pageId}")
-	public String adminPlayersList(@PathVariable("pageId") int pageId, Model model) {
+	public String adminPlayersList(@PathVariable("pageId") int pageId, Model model, HttpServletRequest request) {
 		int pages = playerService.getAllPlayers().size()/20 + 1;
 		model.addAttribute("playersList", playerService.getPlayersByPage(pageId, 20));
 		model.addAttribute("realTeamsList", realTeamService.getAllRealTeams());
 		model.addAttribute("positions", positionService.getAllPositions());
 		model.addAttribute("pages", pages);
 		model.addAttribute("currentPage", pageId);
+		
+		request.getSession().setAttribute("page",  pageId);
 		return "adminPlayersList";
 	}
 	
@@ -132,6 +145,22 @@ public class AdminController {
 	public String adminDeletePlayer(@PathVariable("id") Long id, @PathVariable("pageId") int pageId) {
 		playerService.deletePlayer(id);
 		return "redirect:/admin/players/{pageId}";
+	}
+	
+	@RequestMapping(value ="/players/edit", method = RequestMethod.GET)
+	public String editPlayer(@RequestParam("id") Long playerId, Model model) {
+		model.addAttribute("player", playerService.getPlayerById(playerId));
+		model.addAttribute("realTeams", realTeamService.getAllRealTeams());
+		model.addAttribute("positions", positionService.getAllPositions());
+		return "adminEditPlayer";
+	}
+	
+	@RequestMapping(value ="/players/edit", method = RequestMethod.POST)
+	public String processEditPlayer(@ModelAttribute("player") Player player, HttpServletRequest request) {
+		//realTeamService.updateRealTeam(realTeam);
+		int pageId = (int)request.getSession().getAttribute("page");
+		playerService.updatePlayer(player);
+		return "redirect:/admin/players/" + pageId;
 	}
 	
 	/*

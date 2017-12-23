@@ -167,4 +167,29 @@ public class InMemoryRealTeamRepository implements RealTeamRepository{
 		
 		return realTeam;
 	}
+	
+	public void updateRealTeam(RealTeam realTeam) {
+		String query = "UPDATE real_team SET name = ? WHERE id = ? ";
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = dataSource.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setString(1, realTeam.getName());
+			ps.setLong(2, realTeam.getId());
+			ps.executeUpdate();
+			
+		} catch(SQLException e){
+			e.printStackTrace();
+		} finally {
+			try {
+				 ps.close(); con.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+
+	}
 }

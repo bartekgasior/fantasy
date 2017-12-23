@@ -30,4 +30,7 @@ public class RealTeamServiceImpl implements RealTeamService{
 	public void deleteRealTeam(Long realTeamId) {
 		realTeamRepository.deleteRealTeam(realTeamId);
 	}
+	public void updateRealTeam(RealTeam realTeam) {
+		realTeamRepository.updateRealTeam(realTeam);
+	}
 }
