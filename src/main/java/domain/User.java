@@ -1,6 +1,7 @@
 package domain;
 
-public class User {
+public class User{
+	
 	private String username;
 	private String password;
 	private String user_role;
@@ -8,6 +9,13 @@ public class User {
 
 	public User() {
 		super();
+	}
+	
+	public User(String username, Long userId, String password, String role) {
+	        this.username = username;
+	        this.userId = userId;
+	        this.password = password;
+	        this.user_role = role;
 	}
 	
 	public User(String username, String password) {

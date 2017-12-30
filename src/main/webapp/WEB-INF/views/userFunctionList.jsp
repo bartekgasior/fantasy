@@ -1,5 +1,6 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page session="true" %>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
@@ -22,7 +23,12 @@
 		
 					<div class="panel panel-default">
 						<div class="panel-body">
-							<a href=# class="btn btn-info btn-md btn-block">Twoje drużyny</a>
+						<c:if test="${pageContext.request.userPrincipal.name != null}">
+							<h1>
+								Welcome: ${pageContext.request.userPrincipal.name } 
+							</h1>
+						</c:if>
+							<a href="userPanel/teams" class="btn btn-info btn-md btn-block">Twoje drużyny</a>
 							<a href="#" class="btn btn-info btn-md btn-block">Twoje ligi</a>
 						</div>
 					</div>

@@ -134,10 +134,10 @@
 					        	</c:forEach>
 					        </td>
 					        <td>
-					        	<a href="<spring:url value="/admin/matches/${currentPage }/deleteMatch/${match.id }" />" class="btn btn-danger btn-sm"> <span class = "glyphicon glyphicon-trash"> </span> Usuń </a>
+					        	<a href="<spring:url value="/admin/matches/deleteMatch/${match.id }" />" class="btn btn-danger btn-sm"> <span class = "glyphicon glyphicon-trash"> </span> Usuń </a>
 					        </td>
 					        <td>
-					        	<a href="<spring:url value="/admin/editMatch/${match.id}" />" class="btn btn-info btn-sm"> <span class = "glyphicon glyphicon-trash"> </span> Edytuj </a>
+					        	<a href="<spring:url value="/admin/editMatch/${match.id}" />" class="btn btn-info btn-sm"> <span class = "glyphicon glyphicon-edit"> </span> Edytuj </a>
 					      	</td>
 					      </tr>
 					     </c:forEach>

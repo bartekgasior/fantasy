@@ -18,6 +18,10 @@ public class UserServiceImpl implements UserService {
 		return userRepository.getAllUsers();
 	}
 	
+	public User findUserByName(String name) {
+		return userRepository.findUserByName(name);
+	}
+	
 	public void addUser(User user) {
 		userRepository.addUser(user);
 	}

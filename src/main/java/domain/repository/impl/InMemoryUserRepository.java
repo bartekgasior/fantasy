@@ -123,4 +123,35 @@ public class InMemoryUserRepository implements UserRepository{
 				}
 		}	
 	}
+	
+	public User findUserByName(String name) {
+		String query = "SELECT * FROM users WHERE username = ?;";		
+		
+		User user = null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			con = dataSource.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setString(1, name);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				user = new User();
+				user.setUsername(rs.getString("username"));
+				user.setUser_role(rs.getString("user_role"));
+				user.setUserId(rs.getLong("id"));
+			}
+		} catch(SQLException e){
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close(); ps.close(); con.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return user;
+	}
+
 }

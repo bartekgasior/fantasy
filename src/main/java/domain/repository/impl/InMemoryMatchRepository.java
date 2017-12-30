@@ -134,4 +134,71 @@ public class InMemoryMatchRepository implements MatchRepository{
 		return listOfMatches;
 	}
 	
+	public Match findMatchByTeamsId(int homeTeamId, int awayTeamId) {	
+		String query = "SELECT * FROM match_tab WHERE home_team_id=? AND away_team_id=?;";		
+		
+		Match match = null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			con = dataSource.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setInt(1, homeTeamId);
+			ps.setInt(2, awayTeamId);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				match = new Match();
+				match.setId(rs.getInt("id"));
+				match.setHome_team_id(rs.getInt("home_team_id"));
+				match.setAway_team_id(rs.getInt("away_team_id"));
+				match.setHome_team_score(rs.getInt("home_team_score"));
+				match.setAway_team_score(rs.getInt("away_team_score"));
+				match.setResult_id(rs.getInt("result_id"));
+			}
+		} catch(SQLException e){
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close(); ps.close(); con.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return match;
+	}
+	
+	public void deleteMatch(Long id) {
+		String query = "DELETE FROM match_tab WHERE id = ?";
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = dataSource.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setLong(1, id);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+	}
+	
 }

@@ -4,6 +4,7 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc
 						http://www.springframework.org/schema/mvc/spring-mvc.xsd
 						http://www.springframework.org/schema/security
@@ -11,7 +12,9 @@
 						http://www.springframework.org/schema/beans
 						http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/context
-						http://www.springframework.org/schema/context/spring-context.xsd">
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx 
+  						http://www.springframework.org/schema/tx/spring-tx.xsd">
 						
 	<mvc:annotation-driven enable-matrix-variables="true" />
 											
@@ -24,10 +27,11 @@
 		<security:form-login login-page="/login" authentication-success-handler-ref="customAuthenticationSuccessHandler" login-processing-url="/j_spring_security_check" authentication-failure-url="/loginfailed" 
 								username-parameter="username" password-parameter="password" />
 		<security:logout logout-success-url="/logout" logout-url="/j_spring_security_logout" invalidate-session="true" delete-cookies="true"/>
+		
 	</security:http>
 						
 	<security:authentication-manager>
-		<security:authentication-provider>
+		<security:authentication-provider >
 			<security:jdbc-user-service data-source-ref="dataSource" users-by-username-query="SELECT username,password,enabled FROM users WHERE username = ? "
 																	 authorities-by-username-query="SELECT username,user_role FROM users WHERE username = ? "/>
 		</security:authentication-provider>
@@ -65,6 +69,8 @@
 	    <property name="username" value="bartekg_admin"/>
 	    <property name="password" value="admin"/>
 	</bean>
+	
+	
 	
 	<bean id="customAuthenticationSuccessHandler" class="appAuthentication.CustomAuthenticationSuccessHandler"></bean>
 </beans>

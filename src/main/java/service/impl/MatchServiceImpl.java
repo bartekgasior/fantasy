@@ -26,4 +26,12 @@ public class MatchServiceImpl implements MatchService{
 	public void addMatch(Match match) {
 		matchRepository.addMatch(match);
 	}
+	
+	public Match findMatchByTeamsId(int homeTeamId, int awayTeamId) {
+		return matchRepository.findMatchByTeamsId(homeTeamId, awayTeamId);
+	}
+	
+	public void deleteMatch(Long id) {
+		matchRepository.deleteMatch(id);
+	}
 }

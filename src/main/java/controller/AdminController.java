@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,11 +15,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 import domain.Match;
+import domain.MatchPlayer;
 import domain.Player;
 import domain.RealTeam;
+import service.MatchPlayerService;
 import service.MatchService;
+import service.PlayerResultService;
 import service.PlayerService;
 import service.PositionService;
 import service.RealTeamService;
@@ -41,7 +48,10 @@ public class AdminController {
 	private MatchService matchService;
 	@Autowired 
 	private ResultService resultService;
-	
+	@Autowired
+	private PlayerResultService playerResultService;
+	@Autowired 
+	private MatchPlayerService matchPlayerService;
 	
 	public int realTeamId;
 	
@@ -182,13 +192,53 @@ public class AdminController {
 		Match match = new Match();
 		model.addAttribute("realTeams", realTeamService.getAllRealTeams());
 		model.addAttribute("results", resultService.getResultsNames());
+		model.addAttribute("players", new Gson().toJson(playerService.getAllPlayers()));
+		model.addAttribute("playerResults", new Gson().toJson(playerResultService.getAllResults()));
 		model.addAttribute("match", match);
 		return "adminAddMatch";
 	}
 	
 	@RequestMapping(value = "/matches/addMatch", method = RequestMethod.POST)
-	public String processAddMatchForm(@ModelAttribute("match") Match match, HttpServletRequest request) {
-		matchService.addMatch(match);
+	public String processAddMatchForm(
+			@RequestParam(value="myArray", required=false) String[] homeTeamPlayersResultId, 
+			@RequestParam(value="myArray1", required=false) String[] awayTeamPlayersResultId,
+			@RequestParam(value="myArray2", required=false) String[] homeTeamPlayersResultValues,
+			@RequestParam(value="myArray3", required=false) String[] awayTeamPlayersResultValues,
+			@ModelAttribute("match") Match match, HttpServletRequest request, Model model) {
+		matchService.addMatch(match); 
+		if(match.getAway_team_id() != 0 && match.getHome_team_id() != 0) {
+			request.getSession().setAttribute("homeTeam", match.getHome_team_id());
+			request.getSession().setAttribute("awayTeam", match.getAway_team_id());
+		}
+		
+		if(homeTeamPlayersResultId!=null && awayTeamPlayersResultId != null && homeTeamPlayersResultValues != null && awayTeamPlayersResultValues != null) {
+			int homeTeamId = (int)request.getSession().getAttribute("homeTeam");
+			int awayTeamId = (int)request.getSession().getAttribute("awayTeam");
+			Match matchTmp = matchService.findMatchByTeamsId(homeTeamId, awayTeamId);
+			//System.out.println(matchTmp.getHome_team_id() + " - " + matchTmp.getAway_team_id() + " - " + matchTmp.getId());
+			addPlayersToMatch(homeTeamPlayersResultId, awayTeamPlayersResultId, homeTeamPlayersResultValues, awayTeamPlayersResultValues, matchTmp.getId());
+		}
+		model.addAttribute("match", match);
+		return "redirect:/admin/matches/1";
+	}
+	
+	private void addPlayersToMatch(String[] homeTeamIds, String[] awayTeamIds, String[] homeTeamResults, String[] awayTeamResults, int matchId) {
+		for(int i=0;i<homeTeamIds.length; i++) {
+			homeTeamIds[i]=homeTeamIds[i].substring(6);
+			MatchPlayer player = new MatchPlayer(Long.valueOf(matchId), Long.parseLong(homeTeamIds[i]), Integer.parseInt(homeTeamResults[i])+1);
+			matchPlayerService.addMatchPlayer(player);
+		}
+		for(int i=0;i<awayTeamIds.length; i++) {
+			awayTeamIds[i]=awayTeamIds[i].substring(6);
+			MatchPlayer player = new MatchPlayer(Long.valueOf(matchId), Long.parseLong(awayTeamIds[i]), Integer.parseInt(awayTeamResults[i])+1);
+			matchPlayerService.addMatchPlayer(player);
+		}
+		
+	}
+	
+	@RequestMapping(value = "/matches/deleteMatch/{id}", method = RequestMethod.GET)
+	public String adminDeleteMatch(@PathVariable("id") Long id) {
+		matchService.deleteMatch(id);
 		return "redirect:/admin/matches/1";
 	}
 	
@@ -208,4 +258,5 @@ public class AdminController {
 		return "redirect:/admin/usersList";
 	}
 
+	
 }
