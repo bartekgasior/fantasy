@@ -23,7 +23,7 @@
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<a href="admin/usersList" class="btn btn-info btn-md btn-block">Zarządzaj użytkownikami</a>
-							<a href="admin/realTeams" class="btn btn-info btn-md btn-block">Zarządzaj drużynami</a>
+							<a href="admin/realTeams" class="btn btn-info btn-md btn-block">Zarządzaj klubami</a>
 							<a href="admin/players/1" class="btn btn-info btn-md btn-block">Zarządzaj zawodnikami</a>
 							<a href="admin/matches/1" class="btn btn-info btn-md btn-block">Zarządzaj meczami</a>
 						</div>

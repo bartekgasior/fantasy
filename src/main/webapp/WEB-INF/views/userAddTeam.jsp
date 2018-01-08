@@ -27,6 +27,7 @@
 						<div class = "form-group">
 							<div class="col-lg-10">
 								<form:input id="name" placeholder = "Name" path="name" type="text" class="form:input-large"/>
+								<form:errors path="name" cssClass="text-danger"></form:errors>
 							</div>
 						</div>
 									

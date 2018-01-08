@@ -19,13 +19,6 @@
 		<section class="container">
 			<div class="row">
 				<div class="col-md-4 col-md-offset-4">
-				
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<a href="#" class="btn btn-info btn-md btn-block">Przeglądaj drużyny</a>
-							<a href="#" class="btn btn-info btn-md btn-block">Przeglądaj ligi</a>
-						</div>
-					</div>
 					
 					<div class ="panel panel-default">
 						<div class = "panel-heading">

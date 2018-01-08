@@ -175,6 +175,42 @@ public class InMemoryPlayerRepository implements PlayerRepository {
 		return listOfPlayers;
 	}
 	
+	public List<Player> getPlayersByPosition(String position){
+		List<Player> players = new ArrayList<>();
+		
+		String query = "SELECT * FROM player WHERE position = ?";		
+		
+		Player player = null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			con = dataSource.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setString(1, position);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				player = new Player();
+				player.setId(rs.getLong("id"));
+				player.setName(rs.getString("name"));
+				player.setSurname(rs.getString("surname"));
+				player.setPlayer_fee(rs.getDouble("player_fee"));
+				player.setPosition(rs.getString("position"));
+				player.setReal_team_id(rs.getLong("real_team_id"));
+				players.add(player);
+			}
+		} catch(SQLException e){
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close(); ps.close(); con.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return players;
+	}
+	
 	public Set<Player> getPlayersByFilter(Map<String, List<String>> filterParams){
 		List<Player> players = getAllPlayers();
 		Set<Player> playersByRealTeam = new HashSet<Player>();

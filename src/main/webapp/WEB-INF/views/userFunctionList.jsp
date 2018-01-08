@@ -23,15 +23,11 @@
 		
 					<div class="panel panel-default">
 						<div class="panel-body">
-						<c:if test="${pageContext.request.userPrincipal.name != null}">
-							<h1>
-								Welcome: ${pageContext.request.userPrincipal.name } 
-							</h1>
-						</c:if>
 							<a href="userPanel/teams" class="btn btn-info btn-md btn-block">Twoje drużyny</a>
-							<a href="#" class="btn btn-info btn-md btn-block">Twoje ligi</a>
+							<a href="userPanel/leagues" class="btn btn-info btn-md btn-block">Twoje ligi</a>
 						</div>
 					</div>
+					
 				</div>
 			</div>
 		</section>

@@ -1,11 +1,42 @@
 package domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+
+@Entity
+@Table(name="match_tab")
 public class Match {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
+	@NotNull(message="{NotNull.Match.home_team_id.validation}")
+	@Column(name="home_team_id")
 	private int home_team_id;
+	@Column(name="away_team_id")
 	private int away_team_id;
+	
+	@Min(value=0, message="{Min.Match.home_team_score.validation}")
+	@Digits(integer=2, fraction=0, message="{Digits.Match.home_team_score.validation}")
+	@NotNull(message="{NotNull.Match.home_team_score.validation}")
+	@Column(name="home_team_score")
 	private int home_team_score;
+	
+	@Min(value=0, message="{Min.Match.away_team_score.validation}")
+	@Digits(integer=2, fraction=0, message="{Digits.Match.away_team_score.validation}")
+	@NotNull(message="{NotNull.Match.away_team_score.validation}")
+	@Column(name="away_team_score")
 	private int away_team_score;
+	
+	@Column(name="result_id")
 	private int result_id;
 	
 	public Match() {

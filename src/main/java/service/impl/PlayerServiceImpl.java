@@ -29,6 +29,10 @@ public class PlayerServiceImpl implements PlayerService{
 		return playerRepository.getPlayersByPage(pageId, rows);
 	}
 	
+	public List<Player> getPlayersByPosition(String position){
+		return playerRepository.getPlayersByPosition(position);
+	}
+	
 	public Set<Player> getPlayersByFilter(Map<String, List<String>> filterParams){
 		return playerRepository.getPlayersByFilter(filterParams);
 	}

@@ -28,18 +28,21 @@
 						<div class = "form-group">
 							<div class="col-lg-10">
 								<form:input id="name" placeholder = "Name" path="name" type="text" class="form:input-large"/>
+								<form:errors path="name" cssClass="text-danger"></form:errors>
 							</div>
 						</div>
 						
 						<div class = "form-group">
 							<div class="col-lg-10">
 								<form:input id="surname" placeholder = "Surname" path="surname" type="text" class="form:input-large"/>
+								<form:errors path="surname" cssClass="text-danger"></form:errors>
 							</div>
 						</div>
 						
 						<div class = "form-group">
 							<div class="col-lg-10">
 								<form:input id="player_fee" placeholder = "Player fee" path="player_fee" type="text" class="form:input-large"/>
+								<form:errors path="player_fee" cssClass="text-danger"></form:errors>
 							</div>
 						</div>
 						
@@ -47,12 +50,10 @@
 							<div class="col-lg-10">
 							
 								<form:select path="position">
-								   <form:option value="selected disabled hidden">Wybierz pozycje</form:option>
 								    <c:forEach items="${positions }" var="position">
 								        <form:option id="${position.id }" value="${position.name }" itemValue="position">${position.name }</form:option>   
 								    </c:forEach>
 								</form:select>
-								
 							</div>
 						</div>
 									

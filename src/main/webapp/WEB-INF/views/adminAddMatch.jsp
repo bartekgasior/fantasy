@@ -30,24 +30,26 @@
 							<div class="col-lg-10">
 							
 								<form:select path="home_team_id" id ="getHomeRealTeamId" onchange="showHomeTeamPlayers()">
-								    <option selected disabled hidden>Wybierz drużynę gospodarzy</option>
+								    <option selected disabled hidden value=null>Wybierz drużynę gospodarzy</option>
 								    <c:forEach items="${realTeams }" var="realTeam">
 								        <form:option id="${realTeam.id }" value="${realTeam.id }" itemValue="home_team_id">${realTeam.name }</form:option>   
 								    </c:forEach>
 								</form:select>
-								
+								<form:errors path="home_team_id" cssClass="text-danger"></form:errors>
 							</div>
 						</div>
 						
 						<div class = "form-group">
 							<div class="col-sm-10">
 								<form:input id="home_team_score" placeholder = "Bramki gospodarzy" path="home_team_score" type="text" class="form:input-large"/>
+								<form:errors path="home_team_score" cssClass="text-danger"></form:errors>
 							</div>
 						</div>
 						 :	
 						<div class = "form-group">
 							<div class="col-sm-10">
 								<form:input id="away_team_score" placeholder = "Bramki gości" path="away_team_score" type="text" class="form:input-large"/>
+								<form:errors path="away_team_score" cssClass="text-danger"></form:errors>
 							</div>
 						</div>
 						
@@ -55,7 +57,7 @@
 							<div class="col-lg-10">
 							
 								<form:select path="away_team_id" id ="getAwayRealTeamId" onchange="showAwayTeamPlayers()">
-								    <option selected disabled hidden>Wybierz drużynę gosci</option>
+								    <option selected disabled hidden value=null>Wybierz drużynę gosci</option>
 								    <c:forEach items="${realTeams }" var="realTeam">
 								        <form:option id="${realTeam.id }" value="${realTeam.id }" itemValue="away_team_id">${realTeam.name }</form:option>   
 								    </c:forEach>
@@ -261,6 +263,7 @@
 					myArray2 : homeTeamPlayersResultValue,
 					myArray3 : awayTeamPlayersResultValue
 				},
+				dataType: "json",
 				traditional : true,
 				success : function(response) {
 				       alert(ok);

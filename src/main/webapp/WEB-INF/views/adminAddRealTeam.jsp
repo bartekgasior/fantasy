@@ -19,11 +19,6 @@
 			</div>
 		</section>
 		<section class="container">
-			<c:if test="${not empty error}">
-				<div class="alert alert-danger">
-					<spring:message code="RealTeamDetailsAuthenticationProvider.badCredentials"/><br />
-				</div>
-			</c:if>
 			
 			<form:form modelAttribute = "realTeam" method="post" class ="form-horizontal">
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -33,6 +28,7 @@
 						<div class = "form-group">
 							<div class="col-lg-10">
 								<form:input id="name" placeholder = "Name" path="name" type="text" class="form:input-large"/>
+								<form:errors path="name" cssClass="text-danger"></form:errors>
 							</div>
 						</div>
 						<div class="form-group">

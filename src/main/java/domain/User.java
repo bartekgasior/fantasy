@@ -1,8 +1,13 @@
 package domain;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class User{
-	
+	@Size(min=3, max=30, message="{Size.User.username.validation}")
 	private String username;
+	@Size(min=3, max=30, message="{Size.User.password.validation}")
+    @Pattern(regexp = "[a-zA-Z0-9]+", message = "{Pattern.User.password.validation}")
 	private String password;
 	private String user_role;
 	private Long userId;

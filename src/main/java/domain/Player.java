@@ -1,10 +1,21 @@
 package domain;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Player {
 	private Long id;
+	@Size(min=3, max=30, message="{Size.Player.name.validation}")
 	private String name;
+	@Size(min=3, max=30, message="{Size.Player.surname.validation}")
 	private String surname;
+	@Min(value=0, message="{Min.Player.player_fee.validation}")
+	@Digits(integer=5, fraction=0, message="{Digits.Player.player_fee.validation}")
+	@NotNull(message="{NotNull.Player.player_fee.validation}")
 	private double player_fee;
+	@NotNull(message="{NotNull.Player.position.validation}")
 	private String position;
 	private Long real_team_id;
 	

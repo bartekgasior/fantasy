@@ -1,6 +1,9 @@
 package domain;
 
+import javax.validation.constraints.Size;
+
 public class RealTeam {
+	@Size(min=3, max=30, message="{Size.RealTeam.name.validation}")
 	private String name;
 	private Long id;
 

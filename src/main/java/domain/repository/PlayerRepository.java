@@ -10,6 +10,7 @@ public interface PlayerRepository {
 	List<Player> getAllPlayers();
 	List<Player> getRealTeamPlayers(Long realTeamId);
 	List<Player> getPlayersByPage(int pageId, int rows);
+	List<Player> getPlayersByPosition(String position);
 	Set<Player> getPlayersByFilter(Map<String, List<String>> filterParams);
 	Player getPlayerById(Long id);
 	void updatePlayer(Player player);

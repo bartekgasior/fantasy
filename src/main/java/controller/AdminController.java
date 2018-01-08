@@ -1,21 +1,21 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
@@ -78,7 +78,11 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/realTeams/addRealTeam", method = RequestMethod.POST)
-	public String processAddNewRealTeamForm(@ModelAttribute("realTeam") RealTeam realTeam, HttpServletRequest request) {
+	public String processAddNewRealTeamForm(@ModelAttribute("realTeam") @Valid RealTeam realTeam, BindingResult result, HttpServletRequest request) {
+		if(result.hasErrors()) {
+			return "adminAddRealTeam";
+		}
+		
 		realTeamService.addRealTeam(realTeam);
 		return "redirect:/admin/realTeams";
 	}
@@ -117,8 +121,14 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/realTeam/{id}/addPlayer", method = RequestMethod.POST)
-	public String processAddPlayerToRealTeamForm(@ModelAttribute("player") Player player, @PathVariable("id") Long realTeamId, HttpServletRequest request) {
+	public String processAddPlayerToRealTeamForm(@ModelAttribute("player") @Valid Player player, BindingResult result, Model model,  @PathVariable("id") Long realTeamId, HttpServletRequest request) {
 		player.setReal_team_id(realTeamId);
+		model.addAttribute("positions", positionService.getAllPositions());
+		model.addAttribute("player", player);
+		if(result.hasErrors()) {
+			
+			return "adminAddPlayer";
+		}
 		playerService.addPlayer(player);
 		return "redirect:/admin/realTeam/{id}/players";
 	}
@@ -204,7 +214,17 @@ public class AdminController {
 			@RequestParam(value="myArray1", required=false) String[] awayTeamPlayersResultId,
 			@RequestParam(value="myArray2", required=false) String[] homeTeamPlayersResultValues,
 			@RequestParam(value="myArray3", required=false) String[] awayTeamPlayersResultValues,
-			@ModelAttribute("match") Match match, HttpServletRequest request, Model model) {
+			@ModelAttribute("match") @Valid Match match, BindingResult result, HttpServletRequest request, Model model) {
+		//match.setId(0);
+		if(result.hasErrors()) {
+			Match match1 = new Match();
+			model.addAttribute("realTeams", realTeamService.getAllRealTeams());
+			model.addAttribute("results", resultService.getResultsNames());
+			model.addAttribute("players", new Gson().toJson(playerService.getAllPlayers()));
+			model.addAttribute("playerResults", new Gson().toJson(playerResultService.getAllResults()));
+			model.addAttribute("match", match1);
+			return "adminAddMatch";
+		}
 		matchService.addMatch(match); 
 		if(match.getAway_team_id() != 0 && match.getHome_team_id() != 0) {
 			request.getSession().setAttribute("homeTeam", match.getHome_team_id());
@@ -218,7 +238,7 @@ public class AdminController {
 			//System.out.println(matchTmp.getHome_team_id() + " - " + matchTmp.getAway_team_id() + " - " + matchTmp.getId());
 			addPlayersToMatch(homeTeamPlayersResultId, awayTeamPlayersResultId, homeTeamPlayersResultValues, awayTeamPlayersResultValues, matchTmp.getId());
 		}
-		model.addAttribute("match", match);
+		//model.addAttribute("match", match);
 		return "redirect:/admin/matches/1";
 	}
 	

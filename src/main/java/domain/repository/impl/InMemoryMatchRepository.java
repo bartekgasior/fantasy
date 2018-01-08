@@ -7,7 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,6 +26,9 @@ public class InMemoryMatchRepository implements MatchRepository{
 	
 	@Autowired
 	private DataSource dataSource;
+	
+	@PersistenceContext
+	EntityManager entityManager;
 	
 	public InMemoryMatchRepository(DataSource dataSource) {
 		this.dataSource = dataSource;
@@ -62,7 +68,6 @@ public class InMemoryMatchRepository implements MatchRepository{
 					e.printStackTrace();
 				}
 		}
-		
 		listOfMatches.add(match);
 	}
 	

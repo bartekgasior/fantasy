@@ -1,7 +1,11 @@
 package service;
 
+import java.util.List;
+
 import domain.UsersTeam;
 
 public interface UsersTeamService {
-	void addUsersTeam(UsersTeam team);
+	UsersTeam addUsersTeam(UsersTeam team);
+	List<UsersTeam> getUsersTeams(Long userId);
+	List<UsersTeam> getAll();
 }
