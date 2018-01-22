@@ -93,8 +93,8 @@
 					 
 					 <c:set var="count" value="0" scope="page" />
 
-						<c:forEach items="${leagues }" var="league">
-							<c:if test="${league.id == l.id}">
+						<c:forEach items="${allLeaguesTeams }" var="allLeaguesTeams">
+							<c:if test="${allLeaguesTeams.leagueId == l.id}">
 		        			
    			 					<c:set var="count" value="${count + 1}" scope="page"/>
 

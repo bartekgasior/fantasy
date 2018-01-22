@@ -188,6 +188,7 @@ public class UserController {
 	public String userLeaguesList(Model model, Principal principal) {
 		Long userId = userService.findUserByName((principal.getName())).getUserId();
 		model.addAttribute("leagues", leagueService.getUserLeagues());
+		model.addAttribute("allLeaguesTeams", leagueUsersTeamService.getAll());
 		model.addAttribute("leagueUsersTeam", leagueUsersTeamService.getUsersLeagues(userId));
 		model.addAttribute("userId", userId);
 		List<League> availableUserLeagues = leaguesAvailableForUser(leagueService.getUserLeagues(), leagueUsersTeamService.getUsersLeagues(userId));
@@ -265,7 +266,6 @@ public class UserController {
 		boolean flag;
 		for (int i=0;i<leagues.size();i++) {
 			flag = false;
-			for(int j=0;j<userLeagues.size();j++) {
 
 					for(int k=0;k<userLeagues.size();k++) {
 						if(leagues.get(i).getId() == userLeagues.get(k).getLeagueId())
@@ -277,7 +277,7 @@ public class UserController {
 						}
 					}
 				
-			}
+			
 			flag=false;
 		}
 		if(userLeagues.size() == 0)
